@@ -10,6 +10,7 @@ function App() {
   const [currentUser, setCurrentUser] = useState(null);
   const [isLoggedIn, setLoggedIn] = useState(false);
   const [users, setUsers] = useState([]);
+  const [chats, setChats] = useState([]);
 
   const navigate = useHistory();
 
@@ -28,6 +29,10 @@ function App() {
       fetch("/users")
         .then(r => r.json())
         .then(data => setUsers(data))
+
+      fetch("/chats")
+        .then(r => r.json())
+        .then(data => setChats(data))
     }
   }, [currentUser])
 
@@ -53,7 +58,7 @@ function App() {
       {isLoggedIn ?
         <div>
           {/* // <h1>Welcome!!!! {currentUser ? currentUser.firstName : "?"}</h1> */}
-          <Home currentUser={currentUser} onLogOut={onLogOut} users={users} />
+          <Home currentUser={currentUser} onLogOut={onLogOut} users={users} chats={chats} />
         </div>
         :
         <div className='login'>
