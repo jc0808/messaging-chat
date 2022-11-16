@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { NavLink, useHistory } from "react-router-dom";
+// import { NavLink, useHistory } from "react-router-dom";
 import { Col, Button, Row, Container, Card, Form } from "react-bootstrap";
 
 
@@ -11,9 +11,8 @@ function CreateUser({ returnUser }) {
     const [password, setPassword] = useState(null);
     const [confirmP, setConfirmP] = useState(null);
 
-    const [errorMessage, setErrorMessage] = useState("Create Account");
+    // const [errorMessage, setErrorMessage] = useState("Create Account");
 
-    const navigate = useHistory();
 
 
 
@@ -64,10 +63,10 @@ function CreateUser({ returnUser }) {
 
     }
 
-    const backStyle = {
-        "color": "blue",
-        "marginLeft": "-320px"
-    };
+    // const backStyle = {
+    //     "color": "blue",
+    //     "marginLeft": "-320px"
+    // };
 
 
 
@@ -142,7 +141,7 @@ function CreateUser({ returnUser }) {
 
                                             <div className="d-grid">
                                                 <Button variant="outline-secondary" type="submit">
-                                                    {errorMessage}
+                                                    {/* {errorMessage} */}
                                                 </Button>
                                             </div>
                                         </Form>
