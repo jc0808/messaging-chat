@@ -1,23 +1,69 @@
-import logo from './logo.svg';
+
 import './App.css';
 import { useState, useEffect } from "react"
+import Login from './Login'
+import { Switch, Route, useHistory } from "react-router-dom"
+import CreateUser from './CreateUser';
+import Home from './Home';
 
 function App() {
-
+  const [currentUser, setCurrentUser] = useState(null);
+  const [isLoggedIn, setLoggedIn] = useState(false);
   const [users, setUsers] = useState([]);
 
+  const navigate = useHistory();
+
+  //auto login
   useEffect(() => {
-    fetch("/users")
-      .then(r => r.json())
-      .then(data => setUsers(data))
+    fetch('/Auth')
+      .then(r => {
+        if (r.ok) {
+          r.json().then(user => setCurrentUser(user)).then(setLoggedIn(true))
+        }
+      })
   }, [])
 
-  console.log(users)
+  useEffect(() => {
+    if (currentUser !== null) {
+      fetch("/users")
+        .then(r => r.json())
+        .then(data => setUsers(data))
+    }
+  }, [currentUser])
+
+
+  function returnUser(user) {
+    if (user) {
+      setCurrentUser(user)
+      setLoggedIn(true)
+    }
+  }
+
+  console.log(currentUser)
+
+  function onLogOut() {
+    setCurrentUser(null)
+    setLoggedIn(false)
+    navigate.push('/')
+  }
+
   return (
     <div className="App">
-      <header className="App-header">
-        <h1>{users[1].firstName}</h1>
-      </header>
+
+      {isLoggedIn ?
+        <div>
+          {/* // <h1>Welcome!!!! {currentUser ? currentUser.firstName : "?"}</h1> */}
+          <Home currentUser={currentUser} onLogOut={onLogOut} users={users} />
+        </div>
+        :
+        <div className='login'>
+          <Switch>
+            <Route path='/createAccount'> <CreateUser returnUser={returnUser} /> </Route>
+            <Route path='/'><Login returnUser={returnUser} /></Route>
+          </Switch>
+        </div>
+      }
+
     </div>
   );
 }
